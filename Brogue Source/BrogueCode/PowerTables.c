@@ -50,7 +50,7 @@ short fp_staffHasteDuration(int64_t enchant)        {return ((int) (2 + (enchant
 short fp_staffBladeCount(int64_t enchant)           {return ((int) ((enchant) * 3 / 2 >> FP_BASE));}
 short fp_staffDiscordDuration(int64_t enchant)		{return ((int) ((enchant) * 4 >> FP_BASE));}
 short fp_staffEntrancementDuration(int64_t enchant)	{return ((int) ((enchant) * 3 >> FP_BASE));}
-short fp_staffProtection(int64_t enchant) {
+int fp_staffProtection(int64_t enchant) {
     const int64_t POW_STAFF_PROTECTION[] = {
         // 1.53^x << FP_BASE, with x from 0 to 50 in increments of 1:
         65536, 100270, 153413, 234722, 359125, 549461, 840675, 1286233, 1967937, 3010944, 4606745, 7048320, 10783931, 16499414, 25244104, 38623479, 59093923,
@@ -59,7 +59,7 @@ short fp_staffProtection(int64_t enchant) {
         2448096844694, 3745588172382, 5730749903744, 8768047352729, 13415112449676, 20525122048004, 31403436733446, 48047258202173, 73512305049325, 112473826725468};
     return 50 * POW_STAFF_PROTECTION[(enchant >> FP_BASE) - 2] >> FP_BASE;
 }
-short fp_staffPoison(int64_t enchant) {
+int fp_staffPoison(int64_t enchant) {
     const int64_t POW_POISON[] = {
         // 1.3^x << FP_BASE, with x from 0 to 50 in increments of 1:
         65536, 85196, 110755, 143982, 187177, 243330, 316329, 411228, 534597, 694976, 903469, 1174510, 1526863, 1984922, 2580398, 3354518, 4360874, 5669136, 7369877,
@@ -85,7 +85,7 @@ short fp_charmHealing(int64_t enchant)              {return ((int) clamp(20 * (e
 short fp_charmShattering(int64_t enchant)           {return ((int) (4 + (enchant >> FP_BASE)));}
 short fp_charmGuardianLifespan(int64_t enchant)     {return ((int) (4 + 2 * (enchant >> FP_BASE)));}
 short fp_charmNegationRadius(int64_t enchant)       {return ((int) (1 + 3 * (enchant >> FP_BASE)));}
-short fp_charmProtection(int64_t enchant) {
+int fp_charmProtection(int64_t enchant) {
     const int64_t POW_CHARM_PROTECTION[] = {
         // 1.35^x << FP_BASE, with x from 0 to 50 in increments of 1:
         65536, 88473, 119439, 161243, 217678, 293865, 396718, 535570, 723019, 976076, 1317703, 1778899, 2401514, 3242044, 4376759, 5908625, 7976644, 10768469,
@@ -93,7 +93,7 @@ short fp_charmProtection(int64_t enchant) {
         1310672812, 1769408297, 2388701201, 3224746621, 4353407939, 5877100717, 7934085969, 10711016058, 14459871678, 19520826766, 26353116134, 35576706781,
         48028554155, 64838548109, 87532039948, 118168253930, 159527142806, 215361642788};
     
-    enchant = (enchant >> FP_BASE);
+    enchant = (enchant >> FP_BASE) - 1;
     return 150 * POW_CHARM_PROTECTION[enchant] >> FP_BASE;
 }
 
@@ -208,7 +208,7 @@ int64_t fp_defenseFraction(int64_t netDefense) {
 }
 
 short charmEffectDuration(short charmKind, short enchant) {
-    const int64_t POW_0_CHARM_INCREMENT[50] = {0};
+    const int64_t POW_0_CHARM_INCREMENT[50] = { 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536, 65536 };
     const int64_t POW_120_CHARM_INCREMENT[] = { // 1.20^x << FP_BASE, with x from 1 to 50 in increments of 1:
         78643, 94371, 113246, 135895, 163074, 195689, 234827, 281792, 338151, 405781, 486937, 584325, 701190, 841428, 1009714, 1211657,
         1453988, 1744786, 2093744, 2512492, 3014991, 3617989, 4341587, 5209905, 6251886, 7502263, 9002716, 10803259, 12963911, 15556694,
