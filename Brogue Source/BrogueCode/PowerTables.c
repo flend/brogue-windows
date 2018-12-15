@@ -293,7 +293,7 @@ short charmRechargeDelay(short charmKind, short enchant) {
         POW_40_CHARM_DECREMENT, // Negation
     };
     enchant = clamp(enchant, 1, 50) - 1;
-    short delay = charmEffectDuration(charmKind, enchant)
+    short delay = charmEffectDuration(charmKind, enchant + 1)
     + (duration[charmKind] * increment[charmKind][enchant] >> FP_BASE);
     return max(1, delay);
 }
