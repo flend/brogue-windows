@@ -3278,7 +3278,6 @@ void aggravateMonsters(short distance, short x, short y, const color *flashColor
 			}
 		}
 	}
-	freeGrid(grid);
     
     if (player.xLoc == x && player.yLoc == y) {
         player.status[STATUS_AGGRAVATING] = player.maxStatus[STATUS_AGGRAVATING] = distance;
@@ -3293,6 +3292,7 @@ void aggravateMonsters(short distance, short x, short y, const color *flashColor
             message("You hear a piercing shriek; something must have triggered a nearby alarm.", false);
         }
     }
+    freeGrid(grid);
 }
 
 // Simple line algorithm (maybe this is Bresenham?) that returns a list of coordinates
