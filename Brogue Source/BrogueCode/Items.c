@@ -5576,6 +5576,7 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
                 if ((theItem->category & WEAPON)
                     && theItem->kind != INCENDIARY_DART
                     && hitMonsterWithProjectileWeapon(thrower, monst, theItem)) {
+		      deleteItem(theItem);
                     return;
                 }
                 break;
@@ -5700,6 +5701,7 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
 				autoIdentify(theItem);
 			}
 		}
+		deleteItem(theItem);
 		return; // potions disappear when they break
 	}
 	if ((theItem->category & WEAPON) && theItem->kind == INCENDIARY_DART) {
@@ -5707,6 +5709,7 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
 		if (pmap[x][y].flags & (HAS_MONSTER | HAS_PLAYER)) {
 			exposeCreatureToFire(monsterAtLoc(x, y));
 		}
+		deleteItem(theItem);
 		return;
 	}
 	getQualifyingLocNear(dropLoc, x, y, true, 0, (T_OBSTRUCTS_ITEMS | T_OBSTRUCTS_PASSABILITY), (HAS_ITEM), false, false);
