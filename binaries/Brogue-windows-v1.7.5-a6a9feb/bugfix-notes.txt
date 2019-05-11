@@ -1,9 +1,0 @@
-This binary was built by flend from github flend/brogue-windows commit 39f62c22d1dfc516e9dd48738e038fb204df6525
-
-and contains the following fixes:
-
-- Fix bug where monsters lose track of player 97% of time (rather than 3%)
-- Removing mistaken shift to enable force weapons to damage correctly
-- Fixing ring of wisdom message
-- Fixing heal percentage on staves of healing
-- Fix to sqrt logic to stop Rapier of Mutuality crashing
