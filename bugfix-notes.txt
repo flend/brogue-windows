@@ -1,0 +1,20 @@
+This binary was built by flend from github flend/brogue-windows commit 292427f6a38d1e82895a0283c9b169c04a6a9d3b
+
+and contains the following fixes:
+
+- Fix bug where monsters lose track of player 97% of time (rather than 3%)
+- Removing mistaken shift to enable force weapons to damage correctly
+- Fixing ring of wisdom message
+- Fixing heal percentage on staves of healing
+- Fix to sqrt logic to stop Rapier of Mutuality crashing
+- Fixing bug with allied creatures on depth 1 (as per tsadok)
+- Fixes for operator precidence errors in: staff low, high damage, haste and guardian durations, shattering and negation radii
+- Fixing recharge delays of charms: health, protection, shattering, guardian, teleportation, recharging and negation.
+- Shifting protection amount by 1 enchant to align with v1.7.4.
+- Fixing potential short overflows at high enchants on protection and poison.
+- Making spears attack selectively to avoid hitting allies
+- Fixing another small bug in the recharge delay of charms. Now in-line with 1.7.4 for all charms
+- Reverting to the v1.7.4 code for fast weapon runic activation due to bug in fp_sqrt(
+- Fixing bug where aggrevate monsters can crash the game
+- Fixing a bad memory access caused by an incorrect check for mutations when splitting
+- Fixing memory leak when throwing items
