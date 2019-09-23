@@ -17,11 +17,9 @@ OBJS=BrogueCode/Architect.o \
 	BrogueCode/Light.o \
 	BrogueCode/Monsters.o \
 	BrogueCode/Movement.o \
-	BrogueCode/PowerTables.o \
 	BrogueCode/RogueMain.o \
 	BrogueCode/Random.o \
 	BrogueCode/Recordings.o \
-	BrogueCode/Sqrt.o \
 	BrogueCode/Time.o \
 	PlatformCode/main.o \
 	PlatformCode/platformdependent.o \

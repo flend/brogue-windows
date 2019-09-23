@@ -41,6 +41,8 @@
 
 #define MENU_FLAME_DENOMINATOR			(100 + MENU_FLAME_RISE_SPEED + MENU_FLAME_SPREAD_SPEED)
 
+extern boolean noMenu;
+
 void drawMenuFlames(signed short flames[COLS][(ROWS + MENU_FLAME_ROW_PADDING)][3], unsigned char mask[COLS][ROWS]) {
 	short i, j, versionStringLength;
 	color tempColor = {0};
@@ -260,10 +262,6 @@ void initializeMenuFlames(boolean includeTitle,
 	
 }
 
-boolean isApplicationActive() {
-    return true;
-}
-
 void titleMenu() {
 	signed short flames[COLS][(ROWS + MENU_FLAME_ROW_PADDING)][3]; // red, green and blue
 	signed short colorSources[MENU_FLAME_COLOR_SOURCE_COUNT][4]; // red, green, blue, and rand, one for each color source (no more than MENU_FLAME_COLOR_SOURCE_COUNT).
@@ -349,40 +347,36 @@ void titleMenu() {
     rogue.creaturesWillFlashThisTurn = false; // total unconscionable hack
 	
 	do {
-        if (isApplicationActive()) {
-            // Revert the display.
-            overlayDisplayBuffer(state.rbuf, NULL);
-            
-            if (!controlKeyWasDown && controlKeyIsDown()) {
-                strcpy(state.buttons[0].text, customNewGameText);
-                drawButtonsInState(&state);
-                buttonCommands[0] = NG_NEW_GAME_WITH_SEED;
-                controlKeyWasDown = true;
-            } else if (controlKeyWasDown && !controlKeyIsDown()) {
-                strcpy(state.buttons[0].text, newGameText);
-                drawButtonsInState(&state);
-                buttonCommands[0] = NG_NEW_GAME;
-                controlKeyWasDown = false;
-            }
-            
-            // Update the display.
-            updateMenuFlames(colors, colorSources, flames);
-            drawMenuFlames(flames, mask);
-            overlayDisplayBuffer(shadowBuf, NULL);
-            overlayDisplayBuffer(state.dbuf, NULL);
-            
-            // Pause briefly.
-            if (pauseBrogue(MENU_FLAME_UPDATE_DELAY)) {
-                // There was input during the pause! Get the input.
-                nextBrogueEvent(&theEvent, true, false, true);
-                
-                // Process the input.
-                button = processButtonInput(&state, NULL, &theEvent);
-            }
+		if (!controlKeyWasDown && controlKeyIsDown()) {
+			strcpy(state.buttons[0].text, customNewGameText);
+			drawButtonsInState(&state);
+			buttonCommands[0] = NG_NEW_GAME_WITH_SEED;
+			controlKeyWasDown = true;
+		} else if (controlKeyWasDown && !controlKeyIsDown()) {
+			strcpy(state.buttons[0].text, newGameText);
+			drawButtonsInState(&state);
+			buttonCommands[0] = NG_NEW_GAME;
+			controlKeyWasDown = false;
+		}
 		
-        } else {
-            pauseBrogue(64);
-        }
+		// Update the display.
+		updateMenuFlames(colors, colorSources, flames);
+		drawMenuFlames(flames, mask);
+		overlayDisplayBuffer(shadowBuf, NULL);
+		overlayDisplayBuffer(state.dbuf, NULL);
+		
+		// Pause briefly.
+		if (pauseBrogue(MENU_FLAME_UPDATE_DELAY)) {
+			// There was input during the pause! Get the input.
+			nextBrogueEvent(&theEvent, true, false, true);
+			
+			// Process the input.
+			button = processButtonInput(&state, NULL, &theEvent);
+		}
+		
+		// Revert the display.
+		overlayDisplayBuffer(state.rbuf, NULL);
+		
 	} while (button == -1 && rogue.nextGame == NG_NOTHING);
 	drawMenuFlames(flames, mask);
 	if (button != -1) {
@@ -675,7 +669,7 @@ the first %i depths will, of course, make the game significantly easier.",
 void mainBrogueJunction() {
 	rogueEvent theEvent;
 	char path[BROGUE_FILENAME_MAX], buf[100], seedDefault[100];
-	char maxSeed[40];
+	char maxSeed[20];
 	short i, j, k;
 	boolean seedTooBig;
 	
@@ -701,8 +695,14 @@ void mainBrogueJunction() {
         rogue.playbackMode = false;
 		switch (rogue.nextGame) {
 			case NG_NOTHING:
-				// Run the main menu to get a decision out of the player.
-				titleMenu();
+				if(noMenu) {
+					//Abort the game after completing a game or playback
+					rogue.nextGame = NG_QUIT;
+				}
+				else {
+					// Run the main menu to get a decision out of the player.
+        	titleMenu();
+				}
 				break;
 			case NG_NEW_GAME:
 			case NG_NEW_GAME_WITH_SEED:
