@@ -1099,7 +1099,8 @@ enum tileFlags {
 #define ASCEND_KEY			'<'
 #define REST_KEY			'z'
 #define AUTO_REST_KEY		'Z'
-#define SEARCH_KEY			's'
+#define SEARCH_KEY			'S'
+#define OLD_SEARCH_KEY		's'
 #define INVENTORY_KEY		'i'
 #define ACKNOWLEDGE_KEY		' '
 #define EQUIP_KEY			'e'
@@ -1128,7 +1129,7 @@ enum tileFlags {
 #define PERIOD_KEY			'.'
 #define VIEW_RECORDING_KEY	'V'
 #define LOAD_SAVED_GAME_KEY	'O'
-#define SAVE_GAME_KEY		'S'
+#define SAVE_GAME_KEY		'E'
 #define NEW_GAME_KEY		'N'
 #define NUMPAD_0			48
 #define NUMPAD_1			49

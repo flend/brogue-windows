@@ -2444,6 +2444,12 @@ void executeKeystroke(signed long keystroke, boolean controlKey, boolean shiftKe
 		case SEARCH_KEY:
             manualSearch();
 			break;
+		case OLD_SEARCH_KEY:
+			recordKeystroke(OLD_SEARCH_KEY, false, false);
+			considerCautiousMode();
+			search(rogue.awarenessBonus < 0 ? 40 : 80);
+			playerTurnEnded();
+			break;
 		case INVENTORY_KEY:
 			displayInventory(ALL_ITEMS, 0, 0, true, true);
 			break;
