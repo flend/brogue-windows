@@ -1657,6 +1657,8 @@ creatureType monsterCatalog[NUMBER_MONSTER_KINDS] = {
         (MONST_NEVER_SLEEPS)},
 	{0, "sentinel",		STATUE_CHAR, &sentinelColor, 50,0,		0,		{0, 0, 0},		0,	100,	175,	DF_RUBBLE_BLOOD,SENTINEL_LIGHT,0,0,             {BOLT_HEALING, BOLT_SPARK},
 		(MONST_TURRET | MONST_CAST_SPELLS_SLOWLY | MONST_DIES_IF_NEGATED), (0)},
+   	{0, "acid turret", TURRET_CHAR,	&acidBackColor,35,	0,		250,	{1, 2, 1},      0,	100,	250,	0,              0,		0,		0,              {BOLT_ACID_TURRET_ATTACK},
+		(MONST_TURRET), (MA_HIT_DEGRADE_ARMOR)},
     {0, "dart turret", TURRET_CHAR,	&centipedeColor,20,	0,		140,	{1, 2, 1},      0,	100,	250,	0,              0,		0,		0,              {BOLT_POISON_DART},
 		(MONST_TURRET), (MA_CAUSES_WEAKNESS)},
 	{0,	"kraken",		'K',	&krakenColor,	120,	0,		150,	{15, 20, 3},	1,	50,		100,	0,              0,		0,		0,              {0},
@@ -1848,6 +1850,9 @@ const monsterWords monsterText[NUMBER_MONSTER_KINDS] = {
 	{"An ancient statue of an unrecognizable humanoid figure, the sentinel holds aloft a crystal that gleams with ancient warding magic. Sentinels are always found in groups, and each will attempt to repair any damage done to the others.",
 		"focusing on", "Focusing",
 		{"hits", {0}}},
+	{"A green-flecked nozzle is embedded in the wall, ready to spew a stream of corrosive acid at intruders.",
+		"gazing at", "Gazing",
+		{"douses", "drenches", {0}}},
 	{"This spring-loaded contraption fires darts that are imbued with a strength-sapping poison.",
 		"gazing at", "Gazing",
 		{"pricks", {0}}},
@@ -2024,6 +2029,7 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
 	{MK_OGRE_SHAMAN,	1,		{MK_OGRE},								{{1, 3, 1}},					14,		20,		100},
 	{MK_CENTAUR,		1,		{MK_CENTAUR},							{{1, 1, 1}},					14,		21,		100},
 	{MK_ACID_JELLY,		0,		{0},									{{0}},							14,		21,		100},
+ 	{MK_ACID_TURRET,	0,		{0},									{{0}},							15,		22,		10,		WALL,	0,                      HORDE_NO_PERIODIC_SPAWN},
     {MK_DART_TURRET,	0,		{0},									{{0}},							15,		22,		100,		WALL,	0,                      HORDE_NO_PERIODIC_SPAWN},
 	{MK_PIXIE,			0,		{0},									{{0}},							14,		21,		80},
 	{MK_FLAME_TURRET,	0,		{0},									{{0}},							14,		24,		100,		WALL,	0,                      HORDE_NO_PERIODIC_SPAWN},
@@ -2118,6 +2124,7 @@ const hordeType hordeCatalog[NUMBER_HORDES] = {
 	// machine turrets
 	{MK_ARROW_TURRET,	0,		{0},									{{0}},							5,		13,		100,		TURRET_DORMANT, 0,				HORDE_MACHINE_TURRET},
 	{MK_SPARK_TURRET,	0,		{0},									{{0}},							11,		18,		100,		TURRET_DORMANT, 0,				HORDE_MACHINE_TURRET},
+	{MK_ACID_TURRET,	0,		{0},									{{0}},							15,		22,		10,		TURRET_DORMANT, 0,				HORDE_MACHINE_TURRET},
 	{MK_DART_TURRET,	0,		{0},									{{0}},							15,		22,		100,		TURRET_DORMANT, 0,				HORDE_MACHINE_TURRET},
 	{MK_FLAME_TURRET,	0,		{0},									{{0}},							17,		24,		100,		TURRET_DORMANT, 0,				HORDE_MACHINE_TURRET},
 	
@@ -2532,6 +2539,7 @@ const bolt boltCatalog[NUMBER_BOLT_KINDS] = {
     {"dragonfire",              "breathes a gout of white-hot flame", "can breathe gouts of white-hot flame", 0,    NULL,           &dragonFireColor,   BE_DAMAGE,      18,             DF_OBSIDIAN, 0,         MONST_IMMUNE_TO_FIRE,       (BF_TARGET_ENEMIES | BF_FIERY | BF_NOT_LEARNABLE)},
     {"arrow",                   "shoots an arrow",              "attacks from a distance",                  WEAPON_CHAR, &gray,     NULL,               BE_ATTACK,      1,              0,          0,          MONST_IMMUNE_TO_WEAPONS,    (BF_TARGET_ENEMIES | BF_NEVER_REFLECTS | BF_NOT_LEARNABLE)},
     {"poisoned dart",           "fires a dart",                 "fires strength-sapping darts",             WEAPON_CHAR, &centipedeColor, NULL,         BE_ATTACK,      1,              0,          0,          0,                          (BF_TARGET_ENEMIES | BF_NEVER_REFLECTS | BF_NOT_LEARNABLE)},
+    {"acid spray",              "sprays a stream of acid",      "sprays streams of acid",                   '*',    &acidBackColor, NULL,               BE_ATTACK,      1,              0,          0,          0,                          (BF_TARGET_ENEMIES | BF_NEVER_REFLECTS | BF_NOT_LEARNABLE)},
     {"growing vines",           "releases carnivorous vines into the ground", "conjures carnivorous vines", GRASS_CHAR, &tanColor,  NULL,               BE_NONE,        5,              DF_ANCIENT_SPIRIT_GRASS, DF_ANCIENT_SPIRIT_VINES, (MONST_INANIMATE | MONST_IMMUNE_TO_WEBS),   (BF_TARGET_ENEMIES | BF_NEVER_REFLECTS)},
     {"whip",                    "whips",                        "wields a whip",                            '*',    &tanColor,      NULL,               BE_ATTACK,      1,              0,          0,          MONST_IMMUNE_TO_WEAPONS,    (BF_TARGET_ENEMIES | BF_NEVER_REFLECTS | BF_NOT_LEARNABLE | BF_DISPLAY_CHAR_ALONG_LENGTH)},
 };
